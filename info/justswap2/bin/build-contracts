@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+home="$( cd "$(dirname "$0")" ; pwd -P )"
+srcDir=$home/../contracts
+abiDir=$srcDir/build/
+solc=$home/solc-0.5.8
+
+if [ ! -e abiDir ];then
+  mkdir -p $abiDir
+fi
+
+cat /dev/null > build-contracts.log
+
+for file in `ls $srcDir/*.sol`; do
+  target=$(basename $file .sol)
+  
+  echo "Compiling Solidity file ${target}.sol ..."
+
+  $solc --bin --abi --optimize --overwrite \
+          --allow-paths "$(pwd)" \
+          $file -o $abiDir  &>>build-contracts.log
+done
+echo "done"    
