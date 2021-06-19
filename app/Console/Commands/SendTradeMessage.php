@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class SendTradeMessage extends Command
 {
+    
     /**
      * The name and signature of the console command.
      *
